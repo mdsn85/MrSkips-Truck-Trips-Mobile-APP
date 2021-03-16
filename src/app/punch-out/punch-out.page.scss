@@ -1,0 +1,20 @@
+signature-pad {
+    display: block;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: grey;
+    width: 100%;
+}
+
+ion-card {
+    background-color: white;
+}
+
+.weight-input:after {
+    content: "KG";
+}
+
+ion-input{
+    --placeholder-color: black;
+    --placeholder-opacity: .7;
+}

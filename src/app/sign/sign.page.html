@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Punch out</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding no-bounce>
+  <ion-list lines="none">
+    <ion-card *ngFor="let skip of trip.Skips">
+      <ion-grid [hidden]='skip.SignateImg'>
+        <ion-row>
+          <ion-col >
+            Serial :{{ skip.Serial }}
+          </ion-col>
+          <ion-col >
+            D/O :{{ skip.DO }}
+          </ion-col>
+          <ion-col >
+            Weight :{{ skip.Weight }}
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+          <ion-col >
+            Status:{{skip.Status}}
+          </ion-col>
+          <ion-col >
+            Remarks :{{ skip.Remarks }}
+          </ion-col>
+        </ion-row>
+       
+      </ion-grid>
+    </ion-card>
+    <!--<div ion-fixed>
+      <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" id="signatureCanvas"></signature-pad>
+    </div>-->
+
+    <ion-grid>
+
+      <ion-row  > 
+      
+        <ion-col size="3">
+          <ion-button expand="full" shape="round" size="small" type="button" (click)="ShowSignaturePad()">signature</ion-button>
+        </ion-col>
+  
+        <ion-col offset="6" size="3">
+          <ion-button expand="full" shape="round" size="small" type="button" (click)="resetSignature()">Reset</ion-button>
+        </ion-col>
+  
+      </ion-row>
+
+
+      <ion-row [hidden]='!showSignature'>
+        <ion-col size=3>
+          <ion-row size="3">
+            <ion-col>
+              <ion-input placeholder="Client Name" type="text" [(ngModel)]="signName" ></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row size="3">
+            <ion-col>
+              <ion-input placeholder="Mobile" type="tel" [(ngModel)]="signMobile" ></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row size="3">
+            <ion-col>
+              <ion-input placeholder="Telephone" type="tel" [(ngModel)]="signTel" ></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col size="9">
+          <div ion-fixed>
+            <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" id="signatureCanvas"></signature-pad>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row [hidden]='!showSignature'>
+
+        <ion-col size="4" offset="8" margin>
+          <ion-button expand="full" shape="round" size="small" type="button" (click)="Sign()">Punch out</ion-button>
+        </ion-col>
+      </ion-row>
+
+
+
+
+      <!--<ion-row>
+        <ion-col size="4" offset="8" margin>
+          <ion-button expand="full" shape="round" size="small" type="button" (click)="Sign()">Save</ion-button>
+        </ion-col>
+      </ion-row>-->
+    </ion-grid>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Fuel 
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list lines="none">
+    <ion-card>
+      <ion-grid>
+        <ion-row *ngIf="message!=null && message !='' ">
+          <ion-col >
+            <ion-text color="warning"> {{message}} </ion-text>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">
+            
+            <ion-select placeholder="Select provider" [(ngModel)]="fuel.Provider" >
+              <ion-select-option *ngFor="let provider of FuelProvider" [value]="provider.Id">
+                {{ provider.Name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="4">
+
+            <ion-datetime displayFormat="DD/MM/YYYY HH:mm:ss" 
+                          pickerFormat="DD/MM/YYYY HH:mm:ss"
+                          [(ngModel)]="fuel.ReciptDate"  placeholder="Select Receipt Date"></ion-datetime>    
+          </ion-col>
+
+          
+
+          <ion-col size="3">
+            <ion-button size="small"  style="margin-left: 20px; margin-right: 20px; "no-padding type="button" expand="full" shape="round" (click)="takePhoto()">
+              <ion-icon name="camera"></ion-icon>
+            </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-input placeholder="Quantity" (ionChange)="calculateAmount()" lines="full" type="number" [(ngModel)]="fuel.Quantity" ></ion-input>
+        </ion-col>
+          <ion-col size="4">
+           <!-- <ion-input placeholder="Enter Unit" lines="full" [(ngModel)]="fuel.Unit" ></ion-input>-->
+            <ion-select [(ngModel)]="fuel.Unit" placeholder="Select Unit">
+              <ion-select-option value="galon">Galon</ion-select-option>
+              <ion-select-option value="liter">Liter</ion-select-option>
+            </ion-select>
+          </ion-col>
+
+
+          <ion-col size="3">
+            <ion-input placeholder="Rate" step="0.01" (ionChange)="calculateAmount()" lines="full" type="number" [(ngModel)]="fuel.Rate" ></ion-input>
+          </ion-col>
+          <ion-col size="2">
+            <ion-input placeholder="Enter Amount" step="0.01" lines="full" type="number" [(ngModel)]="fuel.Amount" ></ion-input>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-grid>
+    </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3" offset="8" margin>
+          <ion-button expand="full" shape="round" size="small" type="button" (click)="Submit()">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-content>

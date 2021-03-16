@@ -1,0 +1,276 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Punch out</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding no-bounce>
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10">
+          <h1>{{ trip.Name }}</h1>
+        </ion-col>
+        <ion-col size="2">
+          <ion-toggle [(ngModel)]="listGenerator">Generate Multiple</ion-toggle>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  
+  <ion-card *ngIf='listGenerator'>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+            <!-- <ion-selectable
+            [(ngModel)]="skipsGenerator.Serials" [items]="skipsGenerator.Serials">
+
+            </ion-selectable> -->
+            <ionic-selectable
+              [(ngModel)]="skipsGenerator.Serials"
+              [items]="listSerials"
+              itemValueField="Serial"
+              itemTextField="Serial"
+              [canSearch]="true"
+              [isMultiple]="true">
+              
+              <ng-template ionicSelectablePlaceholderTemplate>
+                Select Serial Numbers
+              </ng-template>
+            </ionic-selectable>
+            <!-- <ion-select multiple="true" required placeholder="Select Serial Numbers" lines="full" type="text" [(ngModel)]="skipsGenerator.Serials" >
+              <ion-select-option *ngFor="let Serial of Serials" [value]="Serial">
+                {{ Serial }}
+              </ion-select-option>
+            </ion-select> -->
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>{{ (skipsGenerator.Serials == undefined ? 0 : skipsGenerator.Serials.length) + trip.numOfSkipsCollected + SuccessSkips }} / {{ trip.NumOfSkipsByContract }} </ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-input placeholder="Client skip #" type="number" [(ngModel)]="NumOfSkips" ></ion-input>
+        </ion-col>
+        <ion-col size="2">
+            <ion-input placeholder="D/O" type="text" [(ngModel)]="skipsGenerator.DO" ></ion-input>
+        </ion-col>
+        <ion-col size="2">
+            <ion-input class="weight-input" placeholder="Wight" type="number" [(ngModel)]="skipsGenerator.Weight" ></ion-input>
+        </ion-col>
+        <ion-col size="3">
+          <ion-select placeholder="Select Status" [(ngModel)]="skipsGenerator.Status">
+            <ion-select-option value="-1">Select Status</ion-select-option>
+            <ion-select-option value="0">Complete</ion-select-option>
+            <ion-select-option value="2">Visit</ion-select-option>
+            <ion-select-option value="3">Drop</ion-select-option>
+            <ion-select-option value="5">Unsign</ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col size="3">
+          <ion-select placeholder="Select Waste Type" [(ngModel)]="skipsGenerator.WasteType">
+            <ion-select-option value="">Not Selected</ion-select-option>
+            <ion-select-option selected value="General">General</ion-select-option>
+            <ion-select-option value="Concrete">Concrete</ion-select-option>
+            <ion-select-option value="Wood">Wood</ion-select-option>
+            <ion-select-option value="Hazardoud">Hazardoud</ion-select-option>
+            <ion-select-option value="Food">Food</ion-select-option>
+            <ion-select-option value="Plastic">Plastic</ion-select-option>
+            <ion-select-option value="Glass">Glass</ion-select-option>
+            <ion-select-option value="Paper">Paper</ion-select-option>
+            <ion-select-option value="Other">Other</ion-select-option>
+
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2" *ngIf="skipsGenerator.Status == '3' || skipsGenerator.Status == '2'">
+          <ion-select placeholder="Select Reason" lines="full" type="text" [(ngModel)]="skipsGenerator.Reason" >
+            <ion-select-option selected value="gate closed">
+              Gate Closed
+            </ion-select-option>
+            <ion-select-option selected value="skip empty">
+              Skip Empty
+            </ion-select-option>
+            <ion-select-option selected value="no access">
+              No Access
+            </ion-select-option>
+            <ion-select-option selected value="vehicle parked">
+              Vehicle Parked
+            </ion-select-option>
+            <ion-select-option selected value="road closed">
+              Road Closed
+            </ion-select-option>
+            <ion-select-option selected value="vehicle break down">
+              Vehicle Break Down
+            </ion-select-option>
+            <ion-select-option selected value="skip not kept outside">
+              Skip Not Kept Outside
+            </ion-select-option>
+            <ion-select-option selected value="other">
+              Other
+            </ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col size="3">
+          <ion-input placeholder="Remarks" type="text" [(ngModel)]="skipsGenerator.Remarks" ></ion-input>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button size="small"  style="margin-left: 20px; margin-right: 20px;" no-padding type="button" expand="full" shape="round" (click)="generateSkips()">
+            Generate
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-virtual-scroll [items]="trip.Skips" lines="none" *ngIf='!listGenerator'>
+      <ion-card *virtualItem="let skip">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="2">
+              <ionic-selectable
+                [(ngModel)]="skip.Serial"
+                [items]="listSerials"
+                itemValueField="Serial"
+                itemTextField="Serial"
+                [canSearch]="true">
+                <ng-template ionicSelectablePlaceholderTemplate>
+                  Select Serial Number
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+            <ion-col size="1">
+                <ion-input placeholder="D/O" type="text" [(ngModel)]="skip.DO" ></ion-input>
+            </ion-col>
+            <ion-col size="1">
+                <ion-input class="weight-input"  placeholder="Wight" type="number" [(ngModel)]="skip.Weight" ></ion-input>
+            </ion-col>
+            <ion-col size="2">
+              <ion-select placeholder="Select Status" [(ngModel)]="skip.Status" (ionChange)="log(skip)">
+                <ion-select-option value="-1">Select Status</ion-select-option>
+                <ion-select-option value="0">Complete</ion-select-option>
+                <ion-select-option value="2">Visit</ion-select-option>
+                <ion-select-option value="3">Drop</ion-select-option>
+                <ion-select-option value="5">Unsign</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="2">
+                <ion-button size="small"  style="margin-left: 20px; margin-right: 20px; "no-padding type="button" *ngIf="skip.Status > 0" expand="full" shape="round" (click)="takePhoto(skip)">
+                  <ion-icon name="camera"></ion-icon>
+                </ion-button>
+            </ion-col>
+            <ion-col size="3">
+              <ion-input placeholder="Remarks" type="text" [(ngModel)]="skip.Remarks" ></ion-input>
+            </ion-col>
+            <ion-col size="1">
+              <ion-button *ngIf="!skip.Copy" size="small" type="button" expand="full" shape="round" (click)="duplicate(skip)">
+                X2
+              </ion-button>
+              <ion-button *ngIf="skip.Copy" color="danger" size="small" type="button" expand="full" shape="round" (click)="remove(skip)">
+                -
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="3">
+              <ion-select placeholder="Select Waste Type" [(ngModel)]="skip.WasteType">
+                <ion-select-option value="">Not Selected</ion-select-option>
+                <ion-select-option value="General">General</ion-select-option>
+                <ion-select-option value="Concrete">Concrete</ion-select-option>
+                <ion-select-option value="Wood">Wood</ion-select-option>
+                <ion-select-option value="Hazardoud">Hazardoud</ion-select-option>
+                <ion-select-option value="Food">Food</ion-select-option>
+                <ion-select-option value="Plastic">Plastic</ion-select-option>
+                <ion-select-option value="Glass">Glass</ion-select-option>
+                <ion-select-option value="Paper">Paper</ion-select-option>
+                <ion-select-option value="Other">Other</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="3">
+              <ion-input placeholder="Delivered Skip Serial" type="text" [(ngModel)]="skip.Serial2" ></ion-input>
+            </ion-col>
+            <ion-col size="2" *ngIf="skip.Status == '3' || skip.Status == '2'">
+              <ion-select placeholder="Select Reason" lines="full" type="text" [(ngModel)]="skip.Reason" >
+                <ion-select-option selected value="gate closed">
+                  Gate Closed
+                </ion-select-option>
+                <ion-select-option selected value="skip empty">
+                  Skip Empty
+                </ion-select-option>
+                <ion-select-option selected value="no access">
+                  No Access
+                </ion-select-option>
+                <ion-select-option selected value="vehicle parked">
+                  Vehicle Parked
+                </ion-select-option>
+                <ion-select-option selected value="road closed">
+                  Road Closed
+                </ion-select-option>
+                <ion-select-option selected value="vehicle break down">
+                  Vehicle Break Down
+                </ion-select-option>
+                <ion-select-option selected value="other">
+                  Other
+                </ion-select-option>
+              </ion-select>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+  </ion-virtual-scroll>
+  <ion-grid>
+    <ion-row>
+      
+      <ion-col size="3">
+        <ion-button expand="full" shape="round" size="small" type="button" (click)="ShowSignaturePad()">signature</ion-button>
+      </ion-col>
+
+      <ion-col offset="6" size="3">
+        <ion-button expand="full" shape="round" size="small" type="button" (click)="resetSignature()">Reset</ion-button>
+      </ion-col>
+
+    </ion-row>
+    <ion-row [hidden]='!showSignature'>
+      <ion-col size=3>
+        <ion-row size="3">
+          <ion-col>
+            <ion-input placeholder="Client Name" type="text" [(ngModel)]="signName" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row size="3">
+          <ion-col>
+            <ion-input placeholder="Mobile" type="tel" [(ngModel)]="signMobile" ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row size="3">
+          <ion-col>
+            <ion-input placeholder="Telephone" type="tel" [(ngModel)]="signTel" ></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="9">
+        <div ion-fixed>
+          <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" id="signatureCanvas"></signature-pad>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    
+    <ion-row *ngIf="false">
+      <ion-col size="2">
+        
+      </ion-col>
+      <ion-col size="2">
+        <ion-input placeholder="Collected Amount" type="number"  [(ngModel)]="trip.AmountCollected"></ion-input>
+      </ion-col>
+      <ion-col size="3" offset="4" margin>
+        <ion-button expand="full" shape="round" size="small" type="button" (click)="PunchOut()">Punch out</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row #elseBlock>
+      <ion-col size="3" offset="8" margin>
+        <ion-button expand="full" shape="round" size="small" type="button" (click)="PunchOut()">Punch out</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

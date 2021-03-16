@@ -1,0 +1,7 @@
+{
+  "name": "Garbage organizer",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

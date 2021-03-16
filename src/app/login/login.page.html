@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <h4 text-center margin-top>Waste Services App</h4>
+
+  <ion-item margin-top>
+    <ion-input placeholder="Username" [(ngModel)]="username"></ion-input>
+  </ion-item>
+
+  <ion-item margin-top>
+    <ion-input placeholder="Password" type="password" [(ngModel)]="password"></ion-input>
+  </ion-item>
+
+    <ion-button margin-top expand="block" shape="round" color="primary"  (click)="signIn()">
+      SIGN IN
+    </ion-button>
+</ion-content>

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Vehicle Checklist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let entry of checklist">
+      <ion-label>{{entry.val}}{{entry.isMajor ? '*' : ''}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="entry.isChecked"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Start KM" [(ngModel)] = "StartKM"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Remarks" [(ngModel)] = "Remarks"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button margin-top expand="block" shape="round" color="primary"  (click)="Submit()">
+          Submit
+        </ion-button>
+      </ion-col>
+      
+      <ion-col offset="3" size="3">
+        <ion-button margin-top expand="block" shape="round" color="primary"  (click)="GoHome()">
+          Go Home
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
