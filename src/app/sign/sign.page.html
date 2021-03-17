@@ -10,21 +10,26 @@
       <ion-grid [hidden]='skip.SignateImg'>
         <ion-row>
           <ion-col >
-            Date :{{ trip.Date }}
+            Date :{{ skip.Customer }}
+          </ion-col>
+          <ion-col >
+            Date :{{ skip.TripDate | date}}
           </ion-col>
           <ion-col >
             Serial :{{ skip.Serial }}
           </ion-col>
+
+
           <ion-col >
             D/O :{{ skip.DO }}
-          </ion-col>
-          <ion-col >
-            Weight :{{ skip.Weight }}
           </ion-col>
 
         </ion-row>
 
         <ion-row>
+          <ion-col >
+            Weight :{{ skip.Weight }}
+          </ion-col>
           <ion-col >
             Status:{{skip.Status}}
           </ion-col>

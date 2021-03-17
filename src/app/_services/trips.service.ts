@@ -120,7 +120,19 @@ export class TripsService {
 
   getSerialNumbers(tripId) {
     //return ['455528621', '645484215'];
+
+    if(typeof tripId != 'number' ){
+
+
+      //return this.httpClient.get(this.apiURL + 'getPendingSignatureSkipsByTrip', { params: params });
+      return this.httpClient.get(this.apiURL + 'GetSerialNumbersArray?tripId='+tripId.join(',')+'&token=' + this.token);
+    }
+
     return this.httpClient.get(this.apiURL + 'GetSerialNumbers?token=' + this.token + '&tripId=' + tripId);
+   
+
+
+
   }
 
   addFuel(FuelReceipt: FormData) {

@@ -24,7 +24,8 @@ export class SignPage implements OnInit {
     Telephone: '',
     Route:''
   };
-  Serials: String[];@ViewChild(SignaturePad) public signaturePad: SignaturePad;
+  Serials: String[];
+  @ViewChild(SignaturePad) public signaturePad: SignaturePad;
   public signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
     'minWidth': 2,
     'canvasWidth': 1000,
@@ -52,11 +53,11 @@ export class SignPage implements OnInit {
         if (data['Success']) {
           this.skips = data['Skips'] as Array<Skip>;
           this.trip.Skips = this.skips;
-          this.tripService.getSerialNumbers(id).subscribe((data: String[]) => {
+          /*this.tripService.getSerialNumbers(id).subscribe((data: String[]) => {
             this.Serials = data;
           }, (error) => {
             this.Serials = [];
-          });;
+          });;*/
         }
         else {
           if(data['ErrorCode'] === '403'){
@@ -77,11 +78,11 @@ export class SignPage implements OnInit {
         if (data['Success']) {
           this.skips = data['Skips'] as Array<Skip>;
           this.trip.Skips = this.skips;
-         // this.tripService.getSerialNumbers(id).subscribe((data: String[]) => {
-         //   this.Serials = data;
-         // }, (error) => {
-           // this.Serials = [];
-          //});;
+         /* this.tripService.getSerialNumbers(Ids).subscribe((data: String[]) => {
+            this.Serials = data;
+          }, (error) => {
+            this.Serials = [];
+          });;*/
         }
         else {
           if(data['ErrorCode'] === '403'){

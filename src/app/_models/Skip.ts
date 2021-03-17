@@ -14,5 +14,7 @@ export interface Skip {
     WasteType?: string;
     Reason?: string;
     SignateImg?: any;
+    TripDate?:any;
+    Customer?:string;
 
 }

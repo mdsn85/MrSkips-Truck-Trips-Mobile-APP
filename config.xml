@@ -3,7 +3,7 @@
     <name>MrSkips Compacter Truck</name>
     <description>Manage daily trips of Route.</description>
     <author email="mdsn85@gmail.com" href="http://mrskips.net/">Mohammasd Saad</author>
-    <content original-src="index.html" src="http://10.0.0.2:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
