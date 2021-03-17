@@ -20,7 +20,13 @@ pipeline {
         }
    }
 
-   stage('APK Sign') {
+       stage('APK Sign') {
+          steps {
+            // sh 'jarsigner -storepass your_password -keystore keys/yourkey.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk nameApp'
+              echo "Android"
+          }
+       }
+   /*stage('APK Sign') {
         steps {
             sh 'jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore platforms/android/app/build/outputs/apk/release/my-release-key.jks 
             platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk my-alias'
@@ -31,7 +37,7 @@ pipeline {
         step{
             sh 'apksigner verify MrSkips.apk'
         }
-   }
+   }*/
 
 
 

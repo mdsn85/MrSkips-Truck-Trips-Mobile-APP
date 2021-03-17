@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Trip } from '../_models/Trip';
 import { Skip } from '../_models/Skip';
 import { AppPreferences } from '@ionic-native/app-preferences/ngx';
@@ -30,6 +30,17 @@ export class TripsService {
   }
 
   getUnsignedSkips(TripId) {
+    console.log("sending " +TripId)
+
+    if(typeof TripId != 'number' ){
+      let params = new HttpParams();
+      params = params.append('TripId', TripId.join(', '));
+      params = params.append('token', this.token);
+
+
+      //return this.httpClient.get(this.apiURL + 'getPendingSignatureSkipsByTrip', { params: params });
+      return this.httpClient.get(this.apiURL + 'getPendingSignatureSkipsByTripArray?TripId='+TripId.join(',')+'&token=' + this.token);
+    }
     return this.httpClient.get(this.apiURL + 'getPendingSignatureSkipsByTrip?TripId=' + TripId + '&token=' + this.token);
   }
 

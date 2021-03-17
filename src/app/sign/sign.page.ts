@@ -45,24 +45,51 @@ export class SignPage implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.tripService.getUnsignedSkips(id).subscribe((data) => {
-      if (data['Success']) {
-        this.skips = data['Skips'] as Array<Skip>;
-        this.trip.Skips = this.skips;
-        this.tripService.getSerialNumbers(id).subscribe((data: String[]) => {
-          this.Serials = data;
-        }, (error) => {
-          this.Serials = [];
-        });;
-      }
-      else {
-        if(data['ErrorCode'] === '403'){
-          this.navCtrl.navigateRoot('/login');
+    console.log("Sign id ="+id + " type = "+typeof id);
+    if(typeof id == 'number'){
+      console.log("number")
+      this.tripService.getUnsignedSkips(id).subscribe((data) => {
+        if (data['Success']) {
+          this.skips = data['Skips'] as Array<Skip>;
+          this.trip.Skips = this.skips;
+          this.tripService.getSerialNumbers(id).subscribe((data: String[]) => {
+            this.Serials = data;
+          }, (error) => {
+            this.Serials = [];
+          });;
         }
-      }
-    }, (error) => {
-      console.log(error);
-    });
+        else {
+          if(data['ErrorCode'] === '403'){
+            this.navCtrl.navigateRoot('/login');
+          }
+        }
+      }, (error) => {
+        console.log(error);
+      });
+    }else
+    {
+      console.log("number")
+      let Ids=JSON.parse(id);
+
+      console.log(Ids.length+"   passed to sign with type + "+typeof Ids);
+
+      this.tripService.getUnsignedSkips(Ids).subscribe((data) => {
+        if (data['Success']) {
+          this.skips = data['Skips'] as Array<Skip>;
+          this.trip.Skips = this.skips;
+         // this.tripService.getSerialNumbers(id).subscribe((data: String[]) => {
+         //   this.Serials = data;
+         // }, (error) => {
+           // this.Serials = [];
+          //});;
+        }
+        else {
+          if(data['ErrorCode'] === '403'){
+            this.navCtrl.navigateRoot('/login');
+          }
+        }
+      });
+    }
   }
 
   async Sign(){
