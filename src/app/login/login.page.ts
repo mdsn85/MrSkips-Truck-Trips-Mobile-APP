@@ -19,8 +19,18 @@ export class LoginPage {
   constructor(private authService: AuthService, private appPreferences: AppPreferences, private router: Router,
     private toastService: ToastService, private storage: Storage, private navController: NavController
     ) { }
-
+//270869 288124
   async signIn() {
+    let token1 = '';
+    await this.appPreferences.fetch('token').then((token) => {
+      token1 = token;
+      console.log('token+success= '+token1);
+    }).catch((error) => {
+      console.error(error);
+      console.log("error + token"+token1);
+    });
+    console.log('token+ after promis = '+token1);
+    //if(token1 == null ||token1 =='' ){
       await this.authService.login(this.username, this.password).subscribe((data: any) => {
         if (data['Success'] === true) {
           this.appPreferences.store('USER', JSON.stringify(data['User'] as User));
@@ -41,6 +51,11 @@ export class LoginPage {
       }, (Error) => {
         this.toastService.presentError('Server Error');
       });
+      this.navController.navigateRoot(['/tabs/tab4']);
+   // }else
+   // {
+   //   this.navController.navigateRoot(['/tabs/tab4']);
+   // }
   }
 
 }
